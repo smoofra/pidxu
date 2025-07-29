@@ -102,6 +102,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>
+#include <fnmatch.h>
 #include <portaudio.h>
 #include "adpcm.h"
 #include "mongoose.h"
@@ -1700,22 +1701,26 @@ void parse_config(char *buffer, struct nxu_struct *nxu)
 		}
 
 		if (strcasecmp(form_name[i], "audio_input")==0) {
-			// printf("%s", form_value[i]);
 			for( j=0; j<numDevices; j++ ) {
 				deviceInfo = Pa_GetDeviceInfo( j );
-				if (strcasecmp(form_value[i], deviceInfo->name)==0)
-					if (deviceInfo->maxInputChannels > 0)
+				if (fnmatch(form_value[i], deviceInfo->name, 0)==0)
+					if (deviceInfo->maxInputChannels > 0) {
 						nxu->audio_in_device = j;
+						printf("Found Audio Input %d %s\n", j, deviceInfo->name);
+						break;
+					}
 			}
 		}
 
 		if (strcasecmp(form_name[i], "audio_output")==0) {
-			// printf("%s", form_value[i]);
 			for( j=0; j<numDevices; j++ ) {
 				deviceInfo = Pa_GetDeviceInfo( j );
-				if (strcasecmp(form_value[i], deviceInfo->name)==0)
-					if (deviceInfo->maxOutputChannels > 0)
+				if (fnmatch(form_value[i], deviceInfo->name, 0)==0)
+					if (deviceInfo->maxOutputChannels > 0) {
 						nxu->audio_out_device = j;
+						printf("Found Audio Output %d %s\n", j, deviceInfo->name);
+						break;
+					}
 			}
 		}
 
