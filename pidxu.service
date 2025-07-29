@@ -1,0 +1,14 @@
+[Unit]
+Description=pidxu
+After=network.target
+
+[Service]
+ExecStart=/home/pi/pidxu
+Restart=on-failure
+User=root
+WorkingDirectory=/home/pi
+StandardError=journal
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
