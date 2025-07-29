@@ -314,6 +314,9 @@ volatile unsigned *gpio;
 
 int main(int argc, char *argv[])
 {
+	setvbuf(stdout, NULL, _IOLBF, 0);
+	setvbuf(stderr, NULL, _IOLBF, 0);
+
 	struct nxu_struct nxu;
 	int dropped_printf_threshold = 0;
 	char host_name[64];
